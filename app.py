@@ -36,6 +36,24 @@ def hello_world():
     # return 'Hello world'
     return render_template('index.html',allToDo=allToDo)
 
+@app.route('/update/<int:sno>',methods=['GET','POST'])
+def update(sno):
+    if request.method=='POST':
+        title=request.form['title']
+        desc=request.form['desc']
+       
+        todo=TODO.query.filter_by(sno=sno).first()
+        todo.title=title
+        todo.desc=desc
+
+        db.session.add(todo)
+        db.session.commit()
+        return redirect("/")
+    
+    todo=TODO.query.filter_by(sno=sno).first()
+    return render_template('update.html',todo=todo)
+
+
 @app.route('/delete/<int:sno>')
 def delete(sno):
     todo=TODO.query.filter_by(sno=sno).first()
