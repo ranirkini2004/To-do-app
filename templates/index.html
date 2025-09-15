@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container my-3">
+      <form action="/" method="POST">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title of your work</label>
+          <input type="text" class="form-control" name="title" id="title" />
+        </div>
+        <div class="mb-3">
+          <label for="desc" class="form-label">Description</label>
+          <input type="text" class="form-control" name="desc" id="desc" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <!-- Table structure -->
+    <div class="container">
+      <table class="table">
+        {% if allToDo|length==0 %}
+
+        <div class="alert alert-dark" role="alert">
+          No todos found. Add your first todo now.
+        </div>
+        {% else %} {% for todo in allToDo %}
+        <thead>
+          <tr>
+            <th scope="col">SNo</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Time and Date</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{todo.title}}</td>
+            <td>{{todo.desc}}</td>
+            <td>{{todo.date_created}}</td>
+            <td>
+              <a
+                href="/update/{{todo.sno}}"
+                type="button"
+                class="btn btn-outline-dark btn-sm mx-1"
+                >Update</a
+              >
+              <a
+                href="/delete/{{todo.sno}}"
+                type="button"
+                class="btn btn-outline-dark btn-sm mx-1"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          {% endfor %} {% endif %}
+
+          <!-- {% for todos in allToDo %}
+            <tr>
+            <th scope="row">{{todos.sno}}</th>
+            <td>{{todos.title}}</td>
+            <td>{{todos.desc}}</td>
+            <td>{{todos.date_created}}</td>
+          </tr>
+         {% endfor %} -->
+        </tbody>
+      </table>
+    </div>
+{% endblock body %}
